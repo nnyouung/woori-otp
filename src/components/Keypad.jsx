@@ -1,10 +1,5 @@
-// 키패드 처리
-// props로 mixedKey boolean
-// true면 키패드에서 눌린 키를(pressedKey) 컴포넌트 MixedKey의 props로 전달
-// 응답값을 가져와 키패드에서 두 개를 시각처리
-
+import { useCallback, useEffect, useRef, useState } from "react";
 import createMixedKey from "@/utils/createMixedKey";
-import { useState, useEffect } from "react";
 import useShuffleKeys from "@/utils/useShuffleKeys";
 import KeypadBackspace from "./KeypadBackspace";
 import KeypadClear from "./KeyPadClear";
@@ -28,9 +23,67 @@ const keypadItems = [
   { type: "ok" },
 ];
 
-const Keypad = ({ mixedKey = false, shuffleKey = false }) => {
+const Keypad = ({
+  mixedKey = false,
+  shuffleKey = false,
+  pressCooldown = 500,
+  onPress,
+}) => {
   const [pressedKey, setPressedKey] = useState(null);
   const [mixedKeys, setMixedKeys] = useState([]);
+  const [cooling, setCooling] = useState(false);
+
+  const cooldownUntilRef = useRef(0);
+  const timerRef = useRef(null);
+
+  const handleGridClick = (event) => {
+    const button = event.target.closest("button");
+    if (!button || button.classList.contains("kp__btn--dummy")) return;
+
+    const key = button.dataset.key;
+    console.log("버튼 눌림: ", key);
+    if (key != null) {
+      onDigitPress();
+      setPressedKey(Number(key));
+    }
+  };
+
+  useEffect(() => {
+    return () => timerRef.current && clearTimeout(timerRef.current);
+  }, []);
+
+  const setCoolingUntil = (until) => {
+    // UI 업데이트용
+    setCooling(true);
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const delay = Math.max(0, until - Date.now());
+
+    timerRef.current = setTimeout(() => {
+      setCooling(false);
+    }, delay);
+  };
+
+  const handlePress = useCallback(
+    (e) => {
+      const now = Date.now();
+
+      // 쿨다운 시간 안이면 무조건 무시
+      if (pressCooldown > 0 && now < cooldownUntilRef.current) return;
+
+      const nextUntil = now + Math.max(0, pressCooldown);
+      cooldownUntilRef.current = nextUntil;
+      if (pressCooldown > 0) setCoolingUntil(nextUntil);
+
+      const { action, key } = e.currentTarget.dataset;
+      const payload = action
+        ? { type: action }
+        : { type: "num", value: key != null ? Number(key) : undefined };
+
+      onPress?.(payload);
+    },
+    [onPress, pressCooldown]
+  );
 
   const { keys: shuffledKeys, onDigitPress } = useShuffleKeys({
     shuffleKey,
@@ -56,18 +109,6 @@ const Keypad = ({ mixedKey = false, shuffleKey = false }) => {
 
   const handleOk = () => {
     console.log("확인 눌림");
-  };
-
-  const handleGridClick = (event) => {
-    const button = event.target.closest("button");
-    if (!button || button.classList.contains("kp__btn--dummy")) return;
-
-    const key = button.dataset.key;
-    console.log("버튼 눌림: ", key);
-    if (key != null) {
-      onDigitPress();
-      setPressedKey(Number(key));
-    }
   };
 
   useEffect(() => {
@@ -99,6 +140,8 @@ const Keypad = ({ mixedKey = false, shuffleKey = false }) => {
                 className="kp__btn kp__btn--num"
                 type="button"
                 data-key={item.value}
+                onClick={handlePress}
+                disabled={cooling}
                 style={
                   isMixedKey
                     ? {
