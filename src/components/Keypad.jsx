@@ -44,10 +44,15 @@ const Keypad = ({ mixedKey = false }) => {
       return;
     }
 
-    const { pressedKey: currentKey, randomKey } = createMixedKey({
+    const { randomKey } = createMixedKey({
       pressedKey,
     });
-    setMixedKeys([currentKey, randomKey]);
+    console.log("버튼 같이 눌림: ", pressedKey, randomKey);
+    setMixedKeys([pressedKey, randomKey]);
+
+    setTimeout(() => {
+      setMixedKeys([]);
+    }, 400);
   }, [mixedKey, pressedKey]);
 
   return (
