@@ -1,8 +1,8 @@
 {
   "name": "secure-keypad",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A secure numeric keypad with shuffled keys and anti-spam input protection",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,15 +10,42 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "react",
+    "security",
+    "keypad",
+    "vite",
+    "numeric-keypad",
+    "secure-input",
+    "shuffle",
+    "random",
+    "ui-component"
+  ],
+  "files": [
+    "dist"
+  ],
+  "contributors": [
+    "eun <hae22012@gmail.com>",
+    "sun <gmhie1208@gmail.com>",
+    "jyu <jiwoo061@gmail.com>",
+    "khmandarrin <6kiesby28@gmail.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nnyouung/secure-keypad.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nnyouung/secure-keypad/issues"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  },
   "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^5.1.2",
     "vite": "^7.3.1"
-  },
-  "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
   }
 }
