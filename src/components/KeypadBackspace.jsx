@@ -1,5 +1,3 @@
-// 키패드 backspace 버튼
-
 import React from "react";
 
 const KeypadBackspace = ({ onBackspace, disabled }) => {
