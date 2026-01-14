@@ -5,7 +5,8 @@ import React from "react";
 const KeypadOk = ({ onOk, disabled }) => {
   return (
     <button
-      className="keypad-button keypad-ok"
+      key="ok"
+      className="kp__btn kp__btn--ok"
       type="button"
       onClick={onOk}
       disabled={disabled}

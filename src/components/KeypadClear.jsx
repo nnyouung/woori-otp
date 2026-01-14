@@ -3,7 +3,8 @@ import React from "react";
 const KeypadClear = ({ onClear, disabled }) => {
   return (
     <button
-      className="keypad-button keypad-clear"
+      key="clear"
+      className="kp__btn kp__btn--clear"
       type="button"
       onClick={onClear}
       disabled={disabled}
