@@ -1,3 +1,5 @@
+// 키패드 초기화 버튼
+
 import React from "react";
 
 const KeypadClear = ({ onClear, disabled }) => {
