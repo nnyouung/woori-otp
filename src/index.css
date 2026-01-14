@@ -3,3 +3,175 @@ body,
 #root {
     @apply w-full h-full
 }
+
+body{
+  margin: 0;
+  background: #ffffff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR",
+               Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+/* 키패드가 있는 화면(페이지/섹션)에서만 가운데 정렬하고 싶을 때 쓰는 래퍼 */
+.keypad-page{
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+
+/* =========================
+   Keypad styles
+   ========================= */
+
+:root{
+  --blue: #3182f6;
+  --blue-weak: #eaf3ff;
+
+  --stroke: #cfd8e6;
+  --stroke-2: #b9c6d8;
+
+  --num-bg: #ffffff;
+  --num-tx: #0b1220;
+
+  --fn-bg:  #f3f8ff;
+  --fn-tx:  #0b1220;
+
+  --radius: 14px;
+  --cell-radius: 12px;
+
+  --cell-h: 56px;
+  --num-col: minmax(58px, 1fr);
+  --fn-col: 110px;
+  --gap: 10px;
+
+  --focus: 0 0 0 3px rgba(49, 130, 246, .22);
+}
+
+*{ box-sizing: border-box; }
+
+.kp{
+  width: min(420px, 96vw);
+  background: transparent;
+  border: 2px solid var(--stroke);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.kp__grid{
+  display:grid;
+  grid-template-columns: repeat(4, var(--num-col)) var(--fn-col);
+  grid-auto-rows: var(--cell-h);
+  gap: var(--gap);
+}
+
+button.kp__btn{
+  appearance:none;
+  border: 2px solid var(--stroke-2);
+  border-radius: var(--cell-radius);
+  background: var(--num-bg);
+  padding: 0 10px;
+  cursor: pointer;
+  font: inherit;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  user-select:none;
+  transition: background .12s ease, border-color .12s ease, transform .06s ease;
+  color: #0b1220;
+}
+
+button.kp__btn:focus-visible{
+  outline: none;
+  box-shadow: var(--focus);
+  border-color: rgba(49,130,246,.70);
+}
+
+/* number keys */
+.kp__btn--num{
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+@media(hover:hover){
+  .kp__btn--num:hover{
+    border-color: rgba(49,130,246,.55);
+    background: #ffffff;
+  }
+}
+
+/* function key base (DEL) */
+.kp__btn--fn{
+  background: var(--fn-bg);
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: .2px;
+}
+
+/* DEL (icon + text) */
+.kp__btn--del{
+  display:flex;
+  gap: 8px;
+  justify-content:center;
+  background: var(--blue-weak);
+  border-color: rgba(49,130,246,.55);
+}
+.kp__btn--del .kp__icon{
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  color: #1d4ed8;
+}
+.kp__btn--del .kp__deltext{
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  color: #1d4ed8;
+}
+@media(hover:hover){
+  .kp__btn--del:hover{
+    background: #dff0ff;
+    border-color: rgba(49,130,246,.75);
+  }
+}
+
+/* OK (white bg + black text, border matches others) */
+.kp__btn--ok{
+  background: #ffffff !important;
+  color: #0b1220 !important;
+  border-color: var(--stroke-2) !important;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: .2px;
+  position: relative;
+  z-index: 2;
+}
+@media(hover:hover){
+  .kp__btn--ok:hover{
+    background: #f8fafc !important;
+    transform: translateY(-1px);
+  }
+}
+
+/* dummy cells */
+.kp__btn--dummy{
+  pointer-events:none;
+  cursor: default;
+  background: transparent;
+  border: 2px dashed rgba(185, 198, 216, .85);
+}
+
+/* press */
+button.kp__btn:active{ transform: translateY(1px); }
+
+/* layout: DEL row1 col5, OK spans row2~row3 col5 */
+.kp__btn--del{ grid-column: 5; grid-row: 1; }
+.kp__btn--ok{  grid-column: 5; grid-row: 2 / span 2; }
+
+@media (max-width: 380px){
+  :root{
+    --cell-h: 52px;
+    --fn-col:  96px;
+    --gap:     8px;
+  }
+  .kp__btn--num{ font-size: 21px; }
+}
