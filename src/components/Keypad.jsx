@@ -1,3 +1,11 @@
+// 키패드 처리
+// props로 mixedKey boolean
+// true면 키패드에서 눌린 키를(pressedKey) 컴포넌트 MixedKey의 props로 전달
+// 응답값을 가져와 키패드에서 두 개를 시각처리
+
+import createMixedKey from "@/utils/createMixedKey";
+import { useState, useEffect } from "react";
+
 const keypadItems = [
   { type: "num", value: 1 },
   { type: "num", value: 2 },
@@ -15,18 +23,53 @@ const keypadItems = [
   { type: "dummy" },
 ];
 
-const Keypad = () => {
+const Keypad = ({ mixedKey = false }) => {
+  const [pressedKey, setPressedKey] = useState(null);
+  const [mixedKeys, setMixedKeys] = useState([]);
+
+  const handleGridClick = (event) => {
+    const button = event.target.closest("button");
+    if (!button || button.classList.contains("kp__btn--dummy")) return;
+
+    const key = button.dataset.key;
+    console.log("버튼 눌림: ", key);
+    if (key != null) {
+      setPressedKey(Number(key));
+    }
+  };
+
+  useEffect(() => {
+    if (!mixedKey || pressedKey === null) {
+      setMixedKeys([]);
+      return;
+    }
+
+    const { pressedKey: currentKey, randomKey } = createMixedKey({
+      pressedKey,
+    });
+    setMixedKeys([currentKey, randomKey]);
+  }, [mixedKey, pressedKey]);
+
   return (
     <div className="kp">
-      <div className="kp__grid">
+      <div className="kp__grid" onClick={handleGridClick}>
         {keypadItems.map((item, index) => {
           if (item.type === "num") {
+            const isMixedKey = mixedKeys.includes(item.value);
             return (
               <button
                 key={`num-${item.value}`}
                 className="kp__btn kp__btn--num"
                 type="button"
                 data-key={item.value}
+                style={
+                  isMixedKey
+                    ? {
+                        background: "var(--blue-weak)",
+                        borderColor: "rgba(49,130,246,.75)",
+                      }
+                    : undefined
+                }
               >
                 {item.value}
               </button>
