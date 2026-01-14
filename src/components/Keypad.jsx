@@ -1,22 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import createMixedKey from "@/utils/createMixedKey";
 import useShuffleKeys from "@/utils/useShuffleKeys";
+import KeypadBackspace from "./KeypadBackspace";
+import KeypadClear from "./KeyPadClear";
+import KeypadOk from "./KeyPadOk";
 
 const keypadItems = [
   { type: "num", value: 1 },
   { type: "num", value: 2 },
   { type: "num", value: 3 },
-  { type: "del" },
   { type: "num", value: 4 },
+  { type: "del" },
   { type: "num", value: 5 },
   { type: "num", value: 6 },
-  { type: "ok" },
   { type: "num", value: 7 },
   { type: "num", value: 8 },
+  { type: "clear" },
   { type: "num", value: 9 },
   { type: "num", value: 0 },
   { type: "dummy" },
   { type: "dummy" },
+  { type: "ok" },
 ];
 
 const Keypad = ({
@@ -95,6 +99,30 @@ const Keypad = ({
     return item;
   });
 
+  const handleBackspace = () => {
+    console.log("백스페이스 눌림");
+  };
+
+  const handleClear = () => {
+    console.log("초기화 눌림");
+  };
+
+  const handleOk = () => {
+    console.log("확인 눌림");
+  };
+
+  const handleGridClick = (event) => {
+    const button = event.target.closest("button");
+    if (!button || button.classList.contains("kp__btn--dummy")) return;
+
+    const key = button.dataset.key;
+    console.log("버튼 눌림: ", key);
+    if (key != null) {
+      onDigitPress();
+      setPressedKey(Number(key));
+    }
+  };
+
   useEffect(() => {
     if (!mixedKey || pressedKey === null) {
       setMixedKeys([]);
@@ -142,38 +170,12 @@ const Keypad = ({
 
           if (item.type === "del") {
             return (
-              <button
-                key="del"
-                className="kp__btn kp__btn--fn kp__btn--del"
-                type="button"
-                data-action="del"
-                aria-label="삭제"
-                onClick={handlePress}
-                disabled={cooling}
-              >
-                <svg
-                  className="kp__icon"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M10 7H20a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H10L2 12l8-5z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M13.5 10.2l4.3 4.3M17.8 10.2l-4.3 4.3"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <span className="kp__deltext">DEL</span>
-              </button>
+              <KeypadBackspace onBackspace={handleBackspace} disabled={false} />
             );
+          }
+
+          if (item.type === "clear") {
+            return <KeypadClear onClear={handleClear} disabled={false} />;
           }
 
           if (item.type === "dummy") {
@@ -189,18 +191,7 @@ const Keypad = ({
           }
 
           if (item.type === "ok") {
-            return (
-              <button
-                key="ok"
-                className="kp__btn kp__btn--ok"
-                type="button"
-                data-action="ok"
-                onClick={handlePress}
-                disabled={cooling}
-              >
-                확인
-              </button>
-            );
+            return <KeypadOk onOk={handleOk} disabled={false} />;
           }
 
           return null;
