@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 const keypadItems = [
   { type: "num", value: 1 },
   { type: "num", value: 2 },
@@ -15,7 +17,50 @@ const keypadItems = [
   { type: "dummy" },
 ];
 
-const Keypad = () => {
+// 연타 방지 처리
+const Keypad = ({ pressCooldown = 500, onPress }) => {
+  const [cooling, setCooling] = useState(false);
+
+  const cooldownUntilRef = useRef(0);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    return () => timerRef.current && clearTimeout(timerRef.current);
+  }, []);
+
+  const setCoolingUntil = (until) => {
+    // UI 업데이트용
+    setCooling(true);
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const delay = Math.max(0, until - Date.now());
+
+    timerRef.current = setTimeout(() => {
+      setCooling(false);
+    }, delay);
+  };
+
+  const handlePress = useCallback(
+    (e) => {
+      const now = Date.now();
+
+      // 쿨다운 시간 안이면 무조건 무시
+      if (pressCooldown > 0 && now < cooldownUntilRef.current) return;
+
+      const nextUntil = now + Math.max(0, pressCooldown);
+      cooldownUntilRef.current = nextUntil;
+      if (pressCooldown > 0) setCoolingUntil(nextUntil);
+
+      const { action, key } = e.currentTarget.dataset;
+      const payload = action
+        ? { type: action }
+        : { type: "num", value: key != null ? Number(key) : undefined };
+
+      onPress?.(payload);
+    },
+    [onPress, pressCooldown]
+  );
+
   return (
     <div className="kp">
       <div className="kp__grid">
@@ -27,6 +72,8 @@ const Keypad = () => {
                 className="kp__btn kp__btn--num"
                 type="button"
                 data-key={item.value}
+                onClick={handlePress}
+                disabled={cooling}
               >
                 {item.value}
               </button>
@@ -41,6 +88,8 @@ const Keypad = () => {
                 type="button"
                 data-action="del"
                 aria-label="삭제"
+                onClick={handlePress}
+                disabled={cooling}
               >
                 <svg
                   className="kp__icon"
@@ -86,6 +135,8 @@ const Keypad = () => {
                 className="kp__btn kp__btn--ok"
                 type="button"
                 data-action="ok"
+                onClick={handlePress}
+                disabled={cooling}
               >
                 확인
               </button>
