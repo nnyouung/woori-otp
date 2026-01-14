@@ -17,8 +17,11 @@ const RESET_AFTER = 4;
 // 2. 더미키 2개 생성
 // 3. shuffleKey=true면 숫자랑 더미 같이 섞기
 // 4. 숫자 입력 4회 넘으면 재셔플
+
+const DEFAULT_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
 export default function useShuffleKeys({
- numbers = [1,2,3,4,5,6,7,8,9,0],
+ numbers = DEFAULT_NUMBERS,
  shuffleKey = false,
 } = {}) {
  const pressCountRef = useRef(0); // 숫자 몇 번 눌렀는지 저장하는 변수
@@ -41,7 +44,7 @@ export default function useShuffleKeys({
 
    // 3. 랜덤 키패드
    return shuffle(base);
- }, [numbers, shuffleKey, mixedKey, shuffleTick]);
+ }, [numbers, shuffleKey, shuffleTick]);
 
  const onDigitPress = () => {
   if (!shuffleKey) return;
