@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Keypad</title>
+
+  <link rel="stylesheet" href="./keypad.css" />
+
+<body>
+  <div class="kp">
+    <div class="kp__grid">
+      <!-- row 1 -->
+      <button class="kp__btn kp__btn--num" type="button" data-key="9">9</button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="7">7</button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="0">0</button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="1">1</button>
+
+      <button class="kp__btn kp__btn--fn kp__btn--del" type="button" data-action="del" aria-label="삭제">
+        <svg class="kp__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10 7H20a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H10L2 12l8-5z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M13.5 10.2l4.3 4.3M17.8 10.2l-4.3 4.3"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="kp__deltext">DEL</span>
+      </button>
+
+      <!-- row 2 -->
+      <button class="kp__btn kp__btn--num" type="button" data-key="5">5</button>
+      <button class="kp__btn kp__btn--dummy" type="button" tabindex="-1" aria-hidden="true"></button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="3">3</button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="4">4</button>
+
+      <button class="kp__btn kp__btn--ok" type="button" data-action="ok">확인</button>
+
+      <!-- row 3 -->
+      <button class="kp__btn kp__btn--num" type="button" data-key="8">8</button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="2">2</button>
+      <button class="kp__btn kp__btn--dummy" type="button" tabindex="-1" aria-hidden="true"></button>
+      <button class="kp__btn kp__btn--num" type="button" data-key="6">6</button>
+    </div>
+  </div>
+
+  <script>
+    // 테스트용: 눌린 키/액션 콘솔 출력
+    document.querySelector(".kp__grid").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.classList.contains("kp__btn--dummy")) return;
+
+      const key = btn.dataset.key;
+      const action = btn.dataset.action;
+
+      if (key != null) console.log("key:", key);
+      if (action) console.log("action:", action);
+    });
+  </script>
+</body>
+</html>
