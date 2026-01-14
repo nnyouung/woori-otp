@@ -17,7 +17,7 @@ const RESET_AFTER = 4;
 // 2. mixedKey=true면 더미 키 추가
 // 3. shuffleKey=true면 숫자랑 더미 같이 섞기
 // 4. 숫자 입력 4회 넘으면 재셔플
-export default function ShuffleKeys({
+export default function useShuffleKeys({
  numbers = [1,2,3,4,5,6,7,8,9,0],
  shuffleKey = false,
  mixedKey = false,
@@ -28,7 +28,7 @@ export default function ShuffleKeys({
  // 1. keys:숫자+더미 목록
  const keys = useMemo(() => {
   const digitKeys = numbers.map((n) => ({
-   type: "digit", // 더미랑 같이 해야돼서 digit으로 바꿈
+   type: "num",
    value: n,
   }))
 
@@ -37,12 +37,12 @@ export default function ShuffleKeys({
    Array.from({ length: 2 }, () => ({type: "dummy" })) : [];
   
    // 숫자+더미 한 배열로 합치기
-   const baseKeys = [...digitKeys, ...dummyKeys];
+   const base = [...digitKeys, ...dummyKeys];
    
-   if(!shuffleKey) return baseKeys;
+   if(!shuffleKey) return base;
 
    // 3. 랜덤 키패드
-   return shuffle(baseKeys);
+   return shuffle(base);
  }, [numbers, shuffleKey, mixedKey, shuffleTick]);
 
  const onDigitPress = () => {
@@ -57,8 +57,5 @@ export default function ShuffleKeys({
   }
  };
 
- return {
-  keys,
-  onDigitPress,
- };
+ return { keys,onDigitPress };
 }
