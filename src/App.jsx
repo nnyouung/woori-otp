@@ -4,7 +4,7 @@ import Keypad from "@/components/Keypad";
 function App() {
   return (
     <div>
-      <Keypad shuffleKey={true} mixedKey={false} />
+      <Keypad shuffleKey={true} mixedKey={true} />
     </div>
   );
 }
