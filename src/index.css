@@ -8,7 +8,9 @@ body {
   margin: 0;
   background: #ffffff;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR",
-    Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
 }
 
 /* 키패드가 있는 화면(페이지/섹션)에서만 가운데 정렬 */
@@ -50,7 +52,7 @@ body {
   --gap: 0px;
   /* ✅ 셀을 붙여서 표처럼 */
 
-  --focus: 0 0 0 3px rgba(49, 130, 246, .22);
+  --focus: 0 0 0 3px rgba(49, 130, 246, 0.22);
 }
 
 * {
@@ -61,7 +63,6 @@ body {
   width: min(420px, 96vw);
   background: transparent;
   border: 2px solid var(--stroke);
-  border-radius: var(--radius);
   padding: 0;
   /* ✅ 바깥 패딩 제거(표 느낌) */
   overflow: hidden;
@@ -70,58 +71,54 @@ body {
 
 .kp__grid {
   display: grid;
-  grid-template-columns: repeat(4, var(--num-col)) var(--fn-col);
+  grid-template-columns: repeat(5, 1fr) ㄴ;
   grid-auto-rows: var(--cell-h);
   gap: var(--gap);
   /* ✅ 0 */
 }
 
-/* ✅ 버튼을 '셀'처럼 보이게: 연한 border + radius 제거 */
+/* 버튼을 '셀'처럼 보이게: 연한 border + radius 제거 */
 button.kp__btn {
   appearance: none;
   border: 1px solid var(--stroke-2);
-  /* ✅ 두꺼운 라인 → 얇은 라인 */
+  /* 두꺼운 라인 → 얇은 라인 */
   border-radius: var(--cell-radius);
   /* ✅ 0 */
   background: var(--num-bg);
-  padding: 0 10px;
+  padding: 0;
   cursor: pointer;
   font: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  transition: background .12s ease, border-color .12s ease;
+  transition: background 0.12s ease, border-color 0.12s ease;
   color: #0b1220;
 }
 
 button.kp__btn:focus-visible {
   outline: none;
   box-shadow: var(--focus);
-  border-color: rgba(49, 130, 246, .70);
+  border-color: rgba(49, 130, 246, 0.7);
 }
 
 /* number keys */
 .kp__btn--num {
-  font-size: 28px;
-  /* ✅ 2번처럼 더 크게 */
+  /* 2번처럼 더 크게 */
   font-weight: 900;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ✅ 눌림 효과도 2번처럼 단순하게 */
+/* 눌림 효과 */
 button.kp__btn.kp__btn--num:active {
   background: #f3f4f6;
+  border-color: #4f8a4b;
 }
 
-/* function key base */
-.kp__btn--fn {
-  background: var(--fn-bg);
-  font-size: 18px;
-  /* ✅ 2번처럼 큼 */
-  font-weight: 800;
-  letter-spacing: .2px;
+.kp__btn--num.mixed {
+  background: #f3f4f6;
+  border-color: #4f8a4b;
 }
 
 /* DEL (아이콘/텍스트) - 2번처럼 '작은 아이콘만'이면 텍스트 숨겨도 됨 */
@@ -139,7 +136,6 @@ button.kp__btn.kp__btn--num:active {
   height: 18px;
   flex: 0 0 auto;
   color: #4f8a4b;
-  /* ✅ 2번 느낌의 그린 톤 */
 }
 
 .kp__btn--del .kp__deltext {
@@ -147,15 +143,12 @@ button.kp__btn.kp__btn--num:active {
   /* ✅ 2번은 텍스트 거의 없음(필요하면 주석 해제) */
 }
 
-/* ✅ 완료(OK) 버튼: 셀 크기에 맞춰 꽉 차게 (고정 width/height 제거!) */
+/* 완료(OK) 버튼 */
 .kp__btn--ok {
   background: #508c4e !important;
   color: #ffffff !important;
   border-color: var(--stroke-2) !important;
-
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
 
   width: auto;
   /* ✅ 고정값 제거 */
@@ -168,9 +161,10 @@ button.kp__btn.kp__btn--num:active {
 
 .kp__btn--ok:active {
   background: #457c44 !important;
+  border-color: #4f8a4b;
 }
 
-/* ✅ dummy도 '빈 셀'로: 보더는 유지(표 칸 느낌) */
+/* dummy도 '빈 셀'로: 보더는 유지 */
 .kp__btn--dummy {
   pointer-events: none;
   cursor: default;
@@ -182,12 +176,23 @@ button.kp__btn.kp__btn--num:active {
 .kp__btn--del {
   grid-column: 5;
   grid-row: 1;
+  color: #457c44 !important;
+}
+
+.kp__btn--del:active {
+  background: #f3f4f6 !important;
+  border-color: #4f8a4b;
 }
 
 .kp__btn--clear {
   grid-column: 5;
   grid-row: 2;
   color: #457c44 !important;
+}
+
+.kp__btn--clear:active {
+  background: #f3f4f6 !important;
+  border-color: #4f8a4b;
 }
 
 .kp__btn--ok {

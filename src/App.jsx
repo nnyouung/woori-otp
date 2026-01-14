@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div>
-      <Keypad shuffleKey={true} mixedKey={true} onPress={handlePress}/> 
+      <Keypad shuffleKey={true} mixedKey={true} onPress={handlePress} />
     </div>
   );
 }
