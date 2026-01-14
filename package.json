@@ -12,6 +12,7 @@
   },
   "keywords": [
     "react",
+    "secure",
     "security",
     "keypad",
     "vite",
@@ -19,7 +20,8 @@
     "secure-input",
     "shuffle",
     "random",
-    "ui-component"
+    "ui-component",
+    "bank"
   ],
   "files": [
     "dist"

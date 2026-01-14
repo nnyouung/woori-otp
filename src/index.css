@@ -4,15 +4,15 @@ body,
   @apply w-full h-full;
 }
 
-body{
+body {
   margin: 0;
   background: #ffffff;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR",
-               Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 /* 키패드가 있는 화면(페이지/섹션)에서만 가운데 정렬 */
-.keypad-page{
+.keypad-page {
   min-height: 100vh;
   display: grid;
   place-items: center;
@@ -23,7 +23,7 @@ body{
    Keypad styles (2번 완성본 스타일)
    ========================= */
 
-:root{
+:root {
   --blue: #3182f6;
   --blue-weak: #eaf3ff;
 
@@ -34,66 +34,77 @@ body{
   --num-bg: #ffffff;
   --num-tx: #0b1220;
 
-  --fn-bg:  #ffffff;  /* ✅ function도 흰 배경 */
-  --fn-tx:  #0b1220;
+  --fn-bg: #ffffff;
+  /* ✅ function도 흰 배경 */
+  --fn-tx: #0b1220;
 
   /* ✅ 2번처럼 거의 각진 박스 */
   --radius: 14px;
-  --cell-radius: 0px; /* ✅ 버튼 둥글기 제거 */
+  --cell-radius: 0px;
+  /* ✅ 버튼 둥글기 제거 */
 
   --cell-h: 56px;
   --num-col: minmax(58px, 1fr);
   --fn-col: 110px;
 
-  --gap: 0px; /* ✅ 셀을 붙여서 표처럼 */
+  --gap: 0px;
+  /* ✅ 셀을 붙여서 표처럼 */
 
   --focus: 0 0 0 3px rgba(49, 130, 246, .22);
 }
 
-*{ box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-.kp{
+.kp {
   width: min(420px, 96vw);
   background: transparent;
   border: 2px solid var(--stroke);
   border-radius: var(--radius);
-  padding: 0; /* ✅ 바깥 패딩 제거(표 느낌) */
-  overflow: hidden; /* ✅ 모서리 깔끔하게 */
+  padding: 0;
+  /* ✅ 바깥 패딩 제거(표 느낌) */
+  overflow: hidden;
+  /* ✅ 모서리 깔끔하게 */
 }
 
-.kp__grid{
-  display:grid;
+.kp__grid {
+  display: grid;
   grid-template-columns: repeat(4, var(--num-col)) var(--fn-col);
   grid-auto-rows: var(--cell-h);
-  gap: var(--gap); /* ✅ 0 */
+  gap: var(--gap);
+  /* ✅ 0 */
 }
 
 /* ✅ 버튼을 '셀'처럼 보이게: 연한 border + radius 제거 */
-button.kp__btn{
-  appearance:none;
-  border: 1px solid var(--stroke-2); /* ✅ 두꺼운 라인 → 얇은 라인 */
-  border-radius: var(--cell-radius); /* ✅ 0 */
+button.kp__btn {
+  appearance: none;
+  border: 1px solid var(--stroke-2);
+  /* ✅ 두꺼운 라인 → 얇은 라인 */
+  border-radius: var(--cell-radius);
+  /* ✅ 0 */
   background: var(--num-bg);
   padding: 0 10px;
   cursor: pointer;
   font: inherit;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  user-select:none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
   transition: background .12s ease, border-color .12s ease;
   color: #0b1220;
 }
 
-button.kp__btn:focus-visible{
+button.kp__btn:focus-visible {
   outline: none;
   box-shadow: var(--focus);
-  border-color: rgba(49,130,246,.70);
+  border-color: rgba(49, 130, 246, .70);
 }
 
 /* number keys */
-.kp__btn--num{
-  font-size: 28px;     /* ✅ 2번처럼 더 크게 */
+.kp__btn--num {
+  font-size: 28px;
+  /* ✅ 2번처럼 더 크게 */
   font-weight: 900;
   letter-spacing: .2px;
   -webkit-tap-highlight-color: transparent;
@@ -105,33 +116,39 @@ button.kp__btn.kp__btn--num:active {
 }
 
 /* function key base */
-.kp__btn--fn{
+.kp__btn--fn {
   background: var(--fn-bg);
-  font-size: 18px;     /* ✅ 2번처럼 큼 */
+  font-size: 18px;
+  /* ✅ 2번처럼 큼 */
   font-weight: 800;
   letter-spacing: .2px;
 }
 
 /* DEL (아이콘/텍스트) - 2번처럼 '작은 아이콘만'이면 텍스트 숨겨도 됨 */
-.kp__btn--del{
-  display:flex;
+.kp__btn--del {
+  display: flex;
   gap: 8px;
-  justify-content:center;
-  background: #ffffff;  /* ✅ 흰 배경 */
+  justify-content: center;
+  background: #ffffff;
+  /* ✅ 흰 배경 */
   border-color: var(--stroke-2);
 }
-.kp__btn--del .kp__icon{
+
+.kp__btn--del .kp__icon {
   width: 18px;
   height: 18px;
   flex: 0 0 auto;
-  color: #4f8a4b;       /* ✅ 2번 느낌의 그린 톤 */
+  color: #4f8a4b;
+  /* ✅ 2번 느낌의 그린 톤 */
 }
-.kp__btn--del .kp__deltext{
-  display: none;        /* ✅ 2번은 텍스트 거의 없음(필요하면 주석 해제) */
+
+.kp__btn--del .kp__deltext {
+  display: none;
+  /* ✅ 2번은 텍스트 거의 없음(필요하면 주석 해제) */
 }
 
 /* ✅ 완료(OK) 버튼: 셀 크기에 맞춰 꽉 차게 (고정 width/height 제거!) */
-.kp__btn--ok{
+.kp__btn--ok {
   background: #508c4e !important;
   color: #ffffff !important;
   border-color: var(--stroke-2) !important;
@@ -140,33 +157,51 @@ button.kp__btn.kp__btn--num:active {
   font-weight: 900;
   letter-spacing: .2px;
 
-  width: auto;   /* ✅ 고정값 제거 */
-  height: auto;  /* ✅ 고정값 제거 */
+  width: auto;
+  /* ✅ 고정값 제거 */
+  height: auto;
+  /* ✅ 고정값 제거 */
 
   position: relative;
   z-index: 2;
 }
 
-.kp__btn--ok:active{
+.kp__btn--ok:active {
   background: #457c44 !important;
 }
 
 /* ✅ dummy도 '빈 셀'로: 보더는 유지(표 칸 느낌) */
-.kp__btn--dummy{
-  pointer-events:none;
+.kp__btn--dummy {
+  pointer-events: none;
   cursor: default;
   background: #ffffff;
   border: 1px solid var(--stroke-2);
 }
 
 /* layout: DEL row1 col5, OK spans row2~row3 col5 */
-.kp__btn--del{ grid-column: 5; grid-row: 1; }
-.kp__btn--ok{  grid-column: 5; grid-row: 2 / span 2; }
+.kp__btn--del {
+  grid-column: 5;
+  grid-row: 1;
+}
 
-@media (max-width: 380px){
-  :root{
+.kp__btn--clear {
+  grid-column: 5;
+  grid-row: 2;
+  color: #457c44 !important;
+}
+
+.kp__btn--ok {
+  grid-column: 5;
+  grid-row: 3;
+}
+
+@media (max-width: 380px) {
+  :root {
     --cell-h: 52px;
-    --fn-col:  96px;
+    --fn-col: 96px;
   }
-  .kp__btn--num{ font-size: 26px; }
+
+  .kp__btn--num {
+    font-size: 26px;
+  }
 }

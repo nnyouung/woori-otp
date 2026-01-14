@@ -10,11 +10,12 @@ const keypadItems = [
   { type: "num", value: 4 },
   { type: "num", value: 5 },
   { type: "num", value: 6 },
-  { type: "ok" },
+  { type: "clear" },
   { type: "num", value: 7 },
   { type: "num", value: 8 },
   { type: "num", value: 9 },
   { type: "num", value: 0 },
+  { type: "ok" },
   { type: "dummy" },
   { type: "dummy" },
 ];
@@ -199,6 +200,19 @@ const Keypad = ({
                 disabled={cooling}
               >
                 확인
+              </button>
+            );
+          }
+
+          if (item.type === "clear") {
+            return (
+              <button
+                key="clear"
+                className="kp__btn kp__btn--clear"
+                type="button"
+                onClick={null}
+              >
+                초기화
               </button>
             );
           }
