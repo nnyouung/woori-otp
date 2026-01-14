@@ -1,4 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+// 키패드 처리
+// props로 mixedKey boolean
+// true면 키패드에서 눌린 키를(pressedKey) 컴포넌트 MixedKey의 props로 전달
+// 응답값을 가져와 키패드에서 두 개를 시각처리
+
+import createMixedKey from "@/utils/createMixedKey";
+import { useState, useEffect } from "react";
+import useShuffleKeys from "@/utils/useShuffleKeys";
 
 const keypadItems = [
   { type: "num", value: 1 },
@@ -60,12 +68,59 @@ const Keypad = ({ pressCooldown = 500, onPress }) => {
     },
     [onPress, pressCooldown]
   );
+const Keypad = ({ mixedKey = false, shuffleKey = false }) => {
+  const [pressedKey, setPressedKey] = useState(null);
+  const [mixedKeys, setMixedKeys] = useState([]);
+
+  const { keys: shuffledKeys, onDigitPress } = useShuffleKeys({
+    shuffleKey,
+  });
+
+  let cursor = 0;
+  const keypadItemsWithShuffle = keypadItems.map((item) => {
+    if (item.type === "num" || item.type === "dummy") {
+      const next = shuffledKeys[cursor];
+      cursor += 1;
+      return next ?? { type: "dummy" };
+    }
+    return item;
+  });
+
+  const handleGridClick = (event) => {
+    const button = event.target.closest("button");
+    if (!button || button.classList.contains("kp__btn--dummy")) return;
+
+    const key = button.dataset.key;
+    console.log("버튼 눌림: ", key);
+    if (key != null) {
+      onDigitPress();
+      setPressedKey(Number(key));
+    }
+  };
+
+  useEffect(() => {
+    if (!mixedKey || pressedKey === null) {
+      setMixedKeys([]);
+      return;
+    }
+
+    const { randomKey } = createMixedKey({
+      pressedKey,
+    });
+    console.log("버튼 같이 눌림: ", pressedKey, randomKey);
+    setMixedKeys([pressedKey, randomKey]);
+
+    setTimeout(() => {
+      setMixedKeys([]);
+    }, 400);
+  }, [mixedKey, pressedKey]);
 
   return (
     <div className="kp">
-      <div className="kp__grid">
-        {keypadItems.map((item, index) => {
+      <div className="kp__grid" onClick={handleGridClick}>
+        {keypadItemsWithShuffle.map((item, index) => {
           if (item.type === "num") {
+            const isMixedKey = mixedKeys.includes(item.value);
             return (
               <button
                 key={`num-${item.value}`}
@@ -74,6 +129,14 @@ const Keypad = ({ pressCooldown = 500, onPress }) => {
                 data-key={item.value}
                 onClick={handlePress}
                 disabled={cooling}
+                style={
+                  isMixedKey
+                    ? {
+                        background: "var(--blue-weak)",
+                        borderColor: "rgba(49,130,246,.75)",
+                      }
+                    : undefined
+                }
               >
                 {item.value}
               </button>
