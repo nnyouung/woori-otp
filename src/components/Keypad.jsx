@@ -13,13 +13,11 @@ const keypadItems = [
   { type: "del" },
   { type: "num", value: 5 },
   { type: "num", value: 6 },
-  { type: "clear" },
   { type: "num", value: 7 },
   { type: "num", value: 8 },
   { type: "clear" },
   { type: "num", value: 9 },
   { type: "num", value: 0 },
-  { type: "ok" },
   { type: "dummy" },
   { type: "dummy" },
   { type: "ok" },
@@ -30,6 +28,9 @@ const Keypad = ({
   shuffleKey = false,
   pressCooldown = 500,
   onPress,
+  onOkClick,
+  onBackspaceClick,
+  onClearClick,
 }) => {
   const [pressedKey, setPressedKey] = useState(null);
   const [mixedKeys, setMixedKeys] = useState([]);
@@ -101,30 +102,6 @@ const Keypad = ({
     return item;
   });
 
-  const handleBackspace = () => {
-    console.log("백스페이스 눌림");
-  };
-
-  const handleClear = () => {
-    console.log("초기화 눌림");
-  };
-
-  const handleOk = () => {
-    console.log("확인 눌림");
-  };
-
-  const handleGridClick = (event) => {
-    const button = event.target.closest("button");
-    if (!button || button.classList.contains("kp__btn--dummy")) return;
-
-    const key = button.dataset.key;
-    console.log("버튼 눌림: ", key);
-    if (key != null) {
-      onDigitPress();
-      setPressedKey(Number(key));
-    }
-  };
-
   useEffect(() => {
     if (!mixedKey || pressedKey === null) {
       setMixedKeys([]);
@@ -172,12 +149,19 @@ const Keypad = ({
 
           if (item.type === "del") {
             return (
-              <KeypadBackspace onBackspace={handleBackspace} disabled={false} />
+              <KeypadBackspace
+                onBackspace={onBackspaceClick}
+                disabled={false}
+              />
             );
           }
 
+          if (item.type === "ok") {
+            return <KeypadOk onOk={onOkClick} disabled={false} />;
+          }
+
           if (item.type === "clear") {
-            return <KeypadClear onClear={handleClear} disabled={false} />;
+            return <KeypadClear onClear={onClearClick} disabled={false} />;
           }
 
           if (item.type === "dummy") {
@@ -191,24 +175,6 @@ const Keypad = ({
               />
             );
           }
-
-          if (item.type === "ok") {
-            return <KeypadOk onOk={handleOk} disabled={false} />;
-          }
-
-          if (item.type === "clear") {
-            return (
-              <button
-                key="clear"
-                className="kp__btn kp__btn--clear"
-                type="button"
-                onClick={null}
-              >
-                초기화
-              </button>
-            );
-          }
-
           return null;
         })}
       </div>
