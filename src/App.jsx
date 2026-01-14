@@ -1,5 +1,12 @@
+// 테스트용 (npm 배포 X)
+import Keypad from "@/components/Keypad";
+
 function App() {
-  return <></>;
+  return (
+    <div>
+      <Keypad shuffleKey={true} mixedKey={false} />
+    </div>
+  );
 }
 
 export default App;
