@@ -1,6 +1,4 @@
-# woori-secure-keypad
-
-# Keypad Component
+# Secure Keypad Component
 
 React 기반의 커스텀 키패드 컴포넌트 프로젝트입니다.  
 숫자 키, 삭제, 초기화, 확인 버튼을 포함하며, **숫자 섞기(shuffle)**와 **혼합 키(mixed key)** 기능을 지원합니다.
@@ -22,12 +20,11 @@ npm install
 yarn install
 
 - 기본 키패드 props
-    
-    
-    | 속성 | 기본값 | 타입 |
-    | --- | --- | --- |
-    | shuffleKey | false | true / false |
-    | mixedKey | false | true / false |
-    | onOk | - | () => void |
-    | onBackspaceClick | - | () => void |
-    | onClear | - | () => void |
+| 속성 | 기본값 | 타입 |
+| --- | --- | --- |
+| shuffleKey | false | true / false |
+| mixedKey | false | true / false |
+| onOk | - | () => void |
+| onBackspaceClick | - | () => void |
+| onClear | - | () => void |
+
