@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import createMixedKey from "@/utils/createMixedKey";
-import useShuffleKeys from "@/utils/useShuffleKeys";
-import { getKeypadActionHandler } from "@/utils/keypadActionHandler";
+import createMixedKey from "../utils/createMixedKey";
+import useShuffleKeys from "../utils/useShuffleKeys";
+import { getKeypadActionHandler } from "../utils/keypadActionHandler";
 
 const keypadItems = [
   { type: "num", value: 1 },
