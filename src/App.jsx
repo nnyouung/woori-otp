@@ -1,5 +1,5 @@
 // 테스트용 (npm 배포 X)
-import Keypad from "@/components/Keypad";
+import Keypad from "./components/Keypad";
 
 function App() {
   const handlePress = (payload) => {
