@@ -1,7 +1,7 @@
 # Secure Keypad Component
 
 React 기반의 커스텀 보안 키패드 컴포넌트입니다.  
-**랜덤 키 배치(shuffle)** 와 **키 동시 눌림 효과(mixed key)** 기능을 지원합니다.
+**랜덤 키 배치(shuffle)** 와 **키 동시 눌림 효과(mixed key)**, **연타방지(cooldown)** 기능을 지원합니다.
 
 ## 주요 기능
 
