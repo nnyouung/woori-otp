@@ -13,9 +13,7 @@ React 기반의 커스텀 보안 키패드 컴포넌트입니다.
 ## 설치
 
 ```bash
-npm install
-# 또는
-yarn install
+npm i secure-keypad
 ```
 
 ## 기본 키패드 props
