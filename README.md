@@ -11,7 +11,7 @@ React 기반의 커스텀 보안 키패드 컴포넌트입니다.
 - 버튼 연타방지(`pressCooldown`) 지원: 쿨다운 동안 버튼 비활성화
 
 ## 설치
-
+https://www.npmjs.com/package/secure-keypad
 ```bash
 npm i secure-keypad
 ```
